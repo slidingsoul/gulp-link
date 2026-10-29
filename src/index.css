@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #fff6e9;
+  --surface: #fffdf8;
+  --ink: #1a1614;
+  --muted: #6b625b;
+  --line: #e8dac7;
+  --accent: #ff5a2a;
+  --accent-ink: #ffffff;
+  --lime: #c8f25a;
+  --indigo: #5b5bff;
+  --danger: #d93a3f;
+  --success: #16794f;
+  --ring: #ff5a2a;
+  --dot: rgb(26 22 20 / 0.09);
+}
+
+@theme inline {
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-lime: var(--lime);
+  --color-indigo: var(--indigo);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  --shadow-hard-sm: 2px 2px 0 0 var(--ink);
+  --shadow-hard: 4px 4px 0 0 var(--ink);
+  --shadow-hard-lg: 8px 8px 0 0 var(--ink);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    min-height: 100dvh;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .mascot-float {
+    animation: mascot-float 5s ease-in-out infinite;
+    transform-origin: 50% 60%;
+  }
+
+  .mascot-gulp {
+    animation: mascot-gulp 0.5s ease-in-out infinite;
+    transform-origin: 50% 60%;
+  }
+
+  .animate-pop {
+    animation: pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+  }
+
+  .animate-rise {
+    animation: rise 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  }
+
+  .animate-shake {
+    animation: shake 0.4s ease-in-out;
+  }
+
+  .animate-blink {
+    animation: blink 5s ease-in-out infinite;
+  }
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes mascot-gulp {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.06, 0.94);
+  }
+  70% {
+    transform: scale(0.97, 1.03);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

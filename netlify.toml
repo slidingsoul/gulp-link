@@ -1,0 +1,43 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # The project ships an .npmrc with legacy-peer-deps=true; this makes it
+  # explicit for Netlify's installer as well.
+  NPM_FLAGS = "--legacy-peer-deps"
+  NODE_VERSION = "20"
+
+# ---------------------------------------------------------------------------
+# Proxy redirects replicate the Vite dev proxy so the browser stays
+# same-origin in production (proxy mode). This keeps the Neon Auth session
+# cookie same-origin and avoids CORS / third-party-cookie issues.
+#
+# IMPORTANT: Netlify redirects CANNOT rewrite the outgoing `Origin` header the
+# way the Vite dev proxy does. Neon checks the Origin against its trusted
+# domains, so you MUST add this site's origin (e.g. https://<your-site>.netlify.app
+# or your custom domain) to:
+#   Neon Console → Branch → Auth → Trusted domains
+# ---------------------------------------------------------------------------
+
+# snap-link backend. Strips the /api prefix, matching the Vite rewrite.
+[[redirects]]
+  from = "/api/*"
+  to = "https://project-two-505505.uc.r.appspot.com/:splat"
+  status = 200
+  force = true
+
+# Neon Managed Better Auth. Strips the /auth prefix and targets the
+# .../neondb/auth path, matching the Vite rewrite.
+[[redirects]]
+  from = "/auth/*"
+  to = "https://ep-rapid-wave-aox1i2yi.neonauth.c-2.ap-southeast-1.aws.neon.tech/neondb/auth/:splat"
+  status = 200
+  force = true
+
+# SPA fallback: serve index.html for client-side routes. Must come last so the
+# proxy redirects above take precedence.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
