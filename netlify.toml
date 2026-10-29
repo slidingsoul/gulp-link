@@ -3,10 +3,14 @@
   publish = "dist"
 
 [build.environment]
-  # The project ships an .npmrc with legacy-peer-deps=true; this makes it
-  # explicit for Netlify's installer as well.
-  NPM_FLAGS = "--legacy-peer-deps"
   NODE_VERSION = "20"
+  # VITE_* vars are inlined at build time. env.ts requires VITE_NEON_AUTH_URL
+  # or the app shows a config error. This is a public endpoint, not a secret.
+  # (You can instead set this in Netlify UI → Environment variables and remove it here.)
+  VITE_NEON_AUTH_URL = "https://ep-rapid-wave-aox1i2yi.neonauth.c-2.ap-southeast-1.aws.neon.tech/neondb/auth"
+  # Defaults already cover these, listed for clarity:
+  #   VITE_AUTH_MODE  = "proxy"  (same-origin via the /auth proxy below)
+  #   VITE_API_BASE   = "/api"   (same-origin via the /api proxy below)
 
 # ---------------------------------------------------------------------------
 # Proxy redirects replicate the Vite dev proxy so the browser stays
